@@ -1,17 +1,46 @@
 [project]
 name = "newton-rl"
 version = "0.1.0"
-description = "Add your description here"
+description = "RL for Aerial Manipulation using Newton Physics"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "newton",
+    "newton", 
 ]
 
 [tool.uv.workspace]
-members = [
-    "submodules/newton",
-]
+members = ["submodules/newton"]
+
+[project.optional-dependencies]
+torch-cu12 = ["newton[torch-cu12]"]
+torch-cu13 = ["newton[torch-cu13]"]
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true
+
+[[tool.uv.index]]
+name = "nvidia"
+url = "https://pypi.nvidia.com/"
+explicit = true
 
 [tool.uv.sources]
-newton = { workspace = true, editable = true }
+newton = { workspace = true }
+warp-lang = { index = "nvidia" }
+torch = [
+  { index = "pytorch-cu128", marker = "extra == 'torch-cu12'" },
+  { index = "pytorch-cu130", marker = "extra == 'torch-cu13' and extra != 'torch-cu12'" },
+]
+[tool.uv]
+conflicts = [
+    [
+        { extra = "torch-cu12" },
+        { extra = "torch-cu13" },
+    ],
+]

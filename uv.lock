@@ -12,6 +12,9 @@ resolution-markers = [
 conflicts = [[
     { package = "newton", extra = "torch-cu12" },
     { package = "newton", extra = "torch-cu13" },
+], [
+    { package = "newton-rl", extra = "torch-cu12" },
+    { package = "newton-rl", extra = "torch-cu13" },
 ]]
 
 [manifest]
@@ -84,7 +87,7 @@ version = "4.13.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "idna" },
-    { name = "typing-extensions", marker = "python_full_version < '3.13' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "typing-extensions", marker = "python_full_version < '3.13' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/19/14/2c5dd9f512b66549ae92767a9c7b330ae88e1932ca57876909410251fe13/anyio-4.13.0.tar.gz", hash = "sha256:334b70e641fd2221c1505b3890c69882fe4a2df910cba14d97019b90b24439dc", size = 231622, upload-time = "2026-03-24T12:59:09.671Z" }
 wheels = [
@@ -186,12 +189,12 @@ source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "asv-runner" },
     { name = "build" },
-    { name = "colorama", marker = "sys_platform == 'win32' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "colorama", marker = "sys_platform == 'win32' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
     { name = "importlib-metadata" },
     { name = "json5" },
     { name = "packaging" },
-    { name = "pympler", marker = "platform_python_implementation != 'PyPy' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
-    { name = "pyyaml", marker = "platform_python_implementation != 'PyPy' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "pympler", marker = "platform_python_implementation != 'PyPy' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
+    { name = "pyyaml", marker = "platform_python_implementation != 'PyPy' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
     { name = "tabulate" },
     { name = "virtualenv" },
 ]
@@ -296,7 +299,7 @@ name = "build"
 version = "1.4.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "colorama", marker = "os_name == 'nt' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "colorama", marker = "os_name == 'nt' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
     { name = "packaging" },
     { name = "pyproject-hooks" },
 ]
@@ -349,7 +352,7 @@ name = "cffi"
 version = "2.0.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "pycparser", marker = "implementation_name != 'PyPy' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "pycparser", marker = "implementation_name != 'PyPy' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/eb/56/b1ba7935a17738ae8453301356628e8147c79dbb825bcbc73dc7401f9846/cffi-2.0.0.tar.gz", hash = "sha256:44d1b5909021139fe36001ae048dbdde8214afa20200eda0f64c068cac5d5529", size = 523588, upload-time = "2025-09-08T23:24:04.541Z" }
 wheels = [
@@ -479,7 +482,7 @@ name = "click"
 version = "8.3.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "colorama", marker = "sys_platform == 'win32' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "colorama", marker = "sys_platform == 'win32' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/3d/fa/656b739db8587d7b5dfa22e22ed02566950fbfbcdc20311993483657a5c0/click-8.3.1.tar.gz", hash = "sha256:12ff4785d337a1bb490bb7e9c2b1ee5da3112e94a8622f26a6c77f5d2fc6842a", size = 295065, upload-time = "2025-11-15T20:45:42.706Z" }
 wheels = [
@@ -527,7 +530,7 @@ name = "colorlog"
 version = "6.10.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "colorama", marker = "sys_platform == 'win32' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "colorama", marker = "sys_platform == 'win32' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/a2/61/f083b5ac52e505dfc1c624eafbf8c7589a0d7f32daa398d2e7590efa5fda/colorlog-6.10.1.tar.gz", hash = "sha256:eb4ae5cb65fe7fec7773c2306061a8e63e02efc2c72eba9d27b0fa23c94f1321", size = 17162, upload-time = "2025-10-16T16:14:11.978Z" }
 wheels = [
@@ -779,37 +782,37 @@ wheels = [
 
 [package.optional-dependencies]
 cublas = [
-    { name = "nvidia-cublas-cu12", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+    { name = "nvidia-cublas-cu12", marker = "(sys_platform == 'linux' and extra == 'extra-6-newton-torch-cu12') or (sys_platform == 'win32' and extra == 'extra-6-newton-torch-cu12') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
 ]
 cudart = [
-    { name = "nvidia-cuda-runtime-cu12", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+    { name = "nvidia-cuda-runtime-cu12", marker = "(sys_platform == 'linux' and extra == 'extra-6-newton-torch-cu12') or (sys_platform == 'win32' and extra == 'extra-6-newton-torch-cu12') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
 ]
 cufft = [
-    { name = "nvidia-cufft-cu12", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+    { name = "nvidia-cufft-cu12", marker = "(sys_platform == 'linux' and extra == 'extra-6-newton-torch-cu12') or (sys_platform == 'win32' and extra == 'extra-6-newton-torch-cu12') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
 ]
 cufile = [
-    { name = "nvidia-cufile-cu12", marker = "sys_platform == 'linux'" },
+    { name = "nvidia-cufile-cu12", marker = "(sys_platform == 'linux' and extra == 'extra-6-newton-torch-cu12') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
 ]
 cupti = [
-    { name = "nvidia-cuda-cupti-cu12", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+    { name = "nvidia-cuda-cupti-cu12", marker = "(sys_platform == 'linux' and extra == 'extra-6-newton-torch-cu12') or (sys_platform == 'win32' and extra == 'extra-6-newton-torch-cu12') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
 ]
 curand = [
-    { name = "nvidia-curand-cu12", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+    { name = "nvidia-curand-cu12", marker = "(sys_platform == 'linux' and extra == 'extra-6-newton-torch-cu12') or (sys_platform == 'win32' and extra == 'extra-6-newton-torch-cu12') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
 ]
 cusolver = [
-    { name = "nvidia-cusolver-cu12", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+    { name = "nvidia-cusolver-cu12", marker = "(sys_platform == 'linux' and extra == 'extra-6-newton-torch-cu12') or (sys_platform == 'win32' and extra == 'extra-6-newton-torch-cu12') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
 ]
 cusparse = [
-    { name = "nvidia-cusparse-cu12", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+    { name = "nvidia-cusparse-cu12", marker = "(sys_platform == 'linux' and extra == 'extra-6-newton-torch-cu12') or (sys_platform == 'win32' and extra == 'extra-6-newton-torch-cu12') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
 ]
 nvjitlink = [
-    { name = "nvidia-nvjitlink-cu12", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+    { name = "nvidia-nvjitlink-cu12", marker = "(sys_platform == 'linux' and extra == 'extra-6-newton-torch-cu12') or (sys_platform == 'win32' and extra == 'extra-6-newton-torch-cu12') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
 ]
 nvrtc = [
-    { name = "nvidia-cuda-nvrtc-cu12", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+    { name = "nvidia-cuda-nvrtc-cu12", marker = "(sys_platform == 'linux' and extra == 'extra-6-newton-torch-cu12') or (sys_platform == 'win32' and extra == 'extra-6-newton-torch-cu12') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
 ]
 nvtx = [
-    { name = "nvidia-nvtx-cu12", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+    { name = "nvidia-nvtx-cu12", marker = "(sys_platform == 'linux' and extra == 'extra-6-newton-torch-cu12') or (sys_platform == 'win32' and extra == 'extra-6-newton-torch-cu12') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
 ]
 
 [[package]]
@@ -826,37 +829,37 @@ wheels = [
 
 [package.optional-dependencies]
 cublas = [
-    { name = "nvidia-cublas", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+    { name = "nvidia-cublas", marker = "(sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (sys_platform == 'linux' and extra == 'extra-6-newton-torch-cu13') or (sys_platform == 'win32' and extra == 'extra-6-newton-torch-cu13') or (sys_platform == 'linux' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (sys_platform == 'win32' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
 ]
 cudart = [
-    { name = "nvidia-cuda-runtime", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+    { name = "nvidia-cuda-runtime", marker = "(sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (sys_platform == 'linux' and extra == 'extra-6-newton-torch-cu13') or (sys_platform == 'win32' and extra == 'extra-6-newton-torch-cu13') or (sys_platform == 'linux' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (sys_platform == 'win32' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
 ]
 cufft = [
-    { name = "nvidia-cufft", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+    { name = "nvidia-cufft", marker = "(sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (sys_platform == 'linux' and extra == 'extra-6-newton-torch-cu13') or (sys_platform == 'win32' and extra == 'extra-6-newton-torch-cu13') or (sys_platform == 'linux' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (sys_platform == 'win32' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
 ]
 cufile = [
-    { name = "nvidia-cufile", marker = "sys_platform == 'linux'" },
+    { name = "nvidia-cufile", marker = "(sys_platform == 'linux' and extra == 'extra-6-newton-torch-cu13') or (sys_platform != 'linux' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (extra != 'extra-6-newton-torch-cu13' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
 ]
 cupti = [
-    { name = "nvidia-cuda-cupti", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+    { name = "nvidia-cuda-cupti", marker = "(sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (sys_platform == 'linux' and extra == 'extra-6-newton-torch-cu13') or (sys_platform == 'win32' and extra == 'extra-6-newton-torch-cu13') or (sys_platform == 'linux' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (sys_platform == 'win32' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
 ]
 curand = [
-    { name = "nvidia-curand", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+    { name = "nvidia-curand", marker = "(sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (sys_platform == 'linux' and extra == 'extra-6-newton-torch-cu13') or (sys_platform == 'win32' and extra == 'extra-6-newton-torch-cu13') or (sys_platform == 'linux' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (sys_platform == 'win32' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
 ]
 cusolver = [
-    { name = "nvidia-cusolver", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+    { name = "nvidia-cusolver", marker = "(sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (sys_platform == 'linux' and extra == 'extra-6-newton-torch-cu13') or (sys_platform == 'win32' and extra == 'extra-6-newton-torch-cu13') or (sys_platform == 'linux' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (sys_platform == 'win32' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
 ]
 cusparse = [
-    { name = "nvidia-cusparse", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+    { name = "nvidia-cusparse", marker = "(sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (sys_platform == 'linux' and extra == 'extra-6-newton-torch-cu13') or (sys_platform == 'win32' and extra == 'extra-6-newton-torch-cu13') or (sys_platform == 'linux' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (sys_platform == 'win32' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
 ]
 nvjitlink = [
-    { name = "nvidia-nvjitlink", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+    { name = "nvidia-nvjitlink", marker = "(sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (sys_platform == 'linux' and extra == 'extra-6-newton-torch-cu13') or (sys_platform == 'win32' and extra == 'extra-6-newton-torch-cu13') or (sys_platform == 'linux' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (sys_platform == 'win32' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
 ]
 nvrtc = [
-    { name = "nvidia-cuda-nvrtc", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+    { name = "nvidia-cuda-nvrtc", marker = "(sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (sys_platform == 'linux' and extra == 'extra-6-newton-torch-cu13') or (sys_platform == 'win32' and extra == 'extra-6-newton-torch-cu13') or (sys_platform == 'linux' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (sys_platform == 'win32' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
 ]
 nvtx = [
-    { name = "nvidia-nvtx", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+    { name = "nvidia-nvtx", marker = "(sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (sys_platform == 'linux' and extra == 'extra-6-newton-torch-cu13') or (sys_platform == 'win32' and extra == 'extra-6-newton-torch-cu13') or (sys_platform == 'linux' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (sys_platform == 'win32' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
 ]
 
 [[package]]
@@ -1275,7 +1278,7 @@ name = "ipykernel"
 version = "6.31.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "appnope", marker = "sys_platform == 'darwin' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "appnope", marker = "sys_platform == 'darwin' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
     { name = "comm" },
     { name = "debugpy" },
     { name = "ipython" },
@@ -1299,12 +1302,12 @@ name = "ipython"
 version = "9.12.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "colorama", marker = "sys_platform == 'win32' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "colorama", marker = "sys_platform == 'win32' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
     { name = "decorator" },
     { name = "ipython-pygments-lexers" },
     { name = "jedi" },
     { name = "matplotlib-inline" },
-    { name = "pexpect", marker = "(sys_platform != 'emscripten' and sys_platform != 'win32') or (sys_platform == 'emscripten' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (sys_platform == 'win32' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "pexpect", marker = "(sys_platform != 'emscripten' and sys_platform != 'win32') or (sys_platform == 'emscripten' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (sys_platform == 'win32' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (sys_platform == 'emscripten' and extra != 'extra-6-newton-torch-cu13' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (sys_platform == 'emscripten' and extra != 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (sys_platform == 'win32' and extra != 'extra-6-newton-torch-cu13' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (sys_platform == 'win32' and extra != 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
     { name = "prompt-toolkit" },
     { name = "pygments" },
     { name = "stack-data" },
@@ -1531,7 +1534,7 @@ dependencies = [
     { name = "nbformat" },
     { name = "packaging" },
     { name = "prometheus-client" },
-    { name = "pywinpty", marker = "os_name == 'nt' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "pywinpty", marker = "os_name == 'nt' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
     { name = "pyzmq" },
     { name = "send2trash" },
     { name = "terminado" },
@@ -1549,7 +1552,7 @@ name = "jupyter-server-terminals"
 version = "0.5.4"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "pywinpty", marker = "os_name == 'nt' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "pywinpty", marker = "os_name == 'nt' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
     { name = "terminado" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/f4/a7/bcd0a9b0cbba88986fe944aaaf91bfda603e5a50bda8ed15123f381a3b2f/jupyter_server_terminals-0.5.4.tar.gz", hash = "sha256:bbda128ed41d0be9020349f9f1f2a4ab9952a73ed5f5ac9f1419794761fb87f5", size = 31770, upload-time = "2026-01-14T16:53:20.213Z" }
@@ -1809,7 +1812,7 @@ name = "manifold3d"
 version = "3.4.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "numpy", marker = "python_full_version < '3.14' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "numpy", marker = "python_full_version < '3.14' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/b0/fd/4dfc246e076e3912c45a821764f4de8b6c8117fa36fc67f8e44bf9dfe59b/manifold3d-3.4.1.tar.gz", hash = "sha256:b517927e2c15dc52169fff0cd12e1949eceb4ca49f3a5b8c0568b1116a561ab1", size = 269275, upload-time = "2026-03-24T06:22:40.062Z" }
 wheels = [
@@ -2286,17 +2289,17 @@ dependencies = [
 dev = [
     { name = "alphashape" },
     { name = "cbor2" },
-    { name = "coacd", marker = "python_full_version < '3.14' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "coacd", marker = "python_full_version < '3.14' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
     { name = "coverage" },
     { name = "fast-simplification" },
     { name = "gitpython" },
     { name = "imgui-bundle" },
     { name = "meshio" },
-    { name = "mujoco", marker = "python_full_version < '3.14' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
-    { name = "mujoco-warp", marker = "python_full_version < '3.14' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "mujoco", marker = "python_full_version < '3.14' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
+    { name = "mujoco-warp", marker = "python_full_version < '3.14' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
     { name = "newton-actuators" },
     { name = "newton-usd-schemas" },
-    { name = "open3d", marker = "(python_full_version < '3.13' and platform_machine != 'aarch64') or (python_full_version < '3.13' and sys_platform != 'linux') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "open3d", marker = "(python_full_version < '3.13' and platform_machine != 'aarch64') or (python_full_version < '3.13' and sys_platform != 'linux') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
     { name = "pillow" },
     { name = "pycollada" },
     { name = "pyglet" },
@@ -2305,19 +2308,19 @@ dev = [
     { name = "resolve-robotics-uri-py" },
     { name = "scipy" },
     { name = "trimesh" },
-    { name = "usd-core", marker = "(python_full_version < '3.14' and platform_machine != 'aarch64') or (python_full_version >= '3.14' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (platform_machine == 'aarch64' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
-    { name = "usd-exchange", marker = "(python_full_version < '3.13' and platform_machine == 'aarch64') or (python_full_version >= '3.13' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (platform_machine != 'aarch64' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "usd-core", marker = "(python_full_version < '3.14' and platform_machine != 'aarch64') or (python_full_version >= '3.14' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (python_full_version >= '3.14' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (platform_machine == 'aarch64' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (platform_machine == 'aarch64' and extra != 'extra-6-newton-torch-cu13' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (platform_machine == 'aarch64' and extra != 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
+    { name = "usd-exchange", marker = "(python_full_version < '3.13' and platform_machine == 'aarch64') or (python_full_version >= '3.13' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (python_full_version >= '3.13' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (platform_machine != 'aarch64' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (platform_machine != 'aarch64' and extra != 'extra-6-newton-torch-cu13' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (platform_machine != 'aarch64' and extra != 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
 ]
 docs = [
     { name = "alphashape" },
-    { name = "coacd", marker = "python_full_version < '3.14' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "coacd", marker = "python_full_version < '3.14' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
     { name = "fast-simplification" },
     { name = "ipykernel" },
     { name = "meshio" },
     { name = "myst-parser" },
     { name = "nbsphinx" },
     { name = "newton-usd-schemas" },
-    { name = "open3d", marker = "(python_full_version < '3.13' and platform_machine != 'aarch64') or (python_full_version < '3.13' and sys_platform != 'linux') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "open3d", marker = "(python_full_version < '3.13' and platform_machine != 'aarch64') or (python_full_version < '3.13' and sys_platform != 'linux') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
     { name = "pycollada" },
     { name = "pydata-sphinx-theme" },
     { name = "pypandoc" },
@@ -2331,23 +2334,23 @@ docs = [
     { name = "sphinx-tabs" },
     { name = "sphinxcontrib-mermaid" },
     { name = "trimesh" },
-    { name = "usd-core", marker = "(python_full_version < '3.14' and platform_machine != 'aarch64') or (python_full_version >= '3.14' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (platform_machine == 'aarch64' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
-    { name = "usd-exchange", marker = "(python_full_version < '3.13' and platform_machine == 'aarch64') or (python_full_version >= '3.13' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (platform_machine != 'aarch64' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "usd-core", marker = "(python_full_version < '3.14' and platform_machine != 'aarch64') or (python_full_version >= '3.14' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (python_full_version >= '3.14' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (platform_machine == 'aarch64' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (platform_machine == 'aarch64' and extra != 'extra-6-newton-torch-cu13' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (platform_machine == 'aarch64' and extra != 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
+    { name = "usd-exchange", marker = "(python_full_version < '3.13' and platform_machine == 'aarch64') or (python_full_version >= '3.13' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (python_full_version >= '3.13' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (platform_machine != 'aarch64' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (platform_machine != 'aarch64' and extra != 'extra-6-newton-torch-cu13' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (platform_machine != 'aarch64' and extra != 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
     { name = "viser" },
 ]
 examples = [
     { name = "alphashape" },
     { name = "cbor2" },
-    { name = "coacd", marker = "python_full_version < '3.14' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "coacd", marker = "python_full_version < '3.14' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
     { name = "fast-simplification" },
     { name = "gitpython" },
     { name = "imgui-bundle" },
     { name = "meshio" },
-    { name = "mujoco", marker = "python_full_version < '3.14' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
-    { name = "mujoco-warp", marker = "python_full_version < '3.14' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "mujoco", marker = "python_full_version < '3.14' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
+    { name = "mujoco-warp", marker = "python_full_version < '3.14' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
     { name = "newton-actuators" },
     { name = "newton-usd-schemas" },
-    { name = "open3d", marker = "(python_full_version < '3.13' and platform_machine != 'aarch64') or (python_full_version < '3.13' and sys_platform != 'linux') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "open3d", marker = "(python_full_version < '3.13' and platform_machine != 'aarch64') or (python_full_version < '3.13' and sys_platform != 'linux') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
     { name = "pillow" },
     { name = "pycollada" },
     { name = "pyglet" },
@@ -2356,72 +2359,72 @@ examples = [
     { name = "resolve-robotics-uri-py" },
     { name = "scipy" },
     { name = "trimesh" },
-    { name = "usd-core", marker = "(python_full_version < '3.14' and platform_machine != 'aarch64') or (python_full_version >= '3.14' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (platform_machine == 'aarch64' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
-    { name = "usd-exchange", marker = "(python_full_version < '3.13' and platform_machine == 'aarch64') or (python_full_version >= '3.13' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (platform_machine != 'aarch64' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "usd-core", marker = "(python_full_version < '3.14' and platform_machine != 'aarch64') or (python_full_version >= '3.14' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (python_full_version >= '3.14' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (platform_machine == 'aarch64' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (platform_machine == 'aarch64' and extra != 'extra-6-newton-torch-cu13' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (platform_machine == 'aarch64' and extra != 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
+    { name = "usd-exchange", marker = "(python_full_version < '3.13' and platform_machine == 'aarch64') or (python_full_version >= '3.13' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (python_full_version >= '3.13' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (platform_machine != 'aarch64' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (platform_machine != 'aarch64' and extra != 'extra-6-newton-torch-cu13' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (platform_machine != 'aarch64' and extra != 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
 ]
 importers = [
     { name = "alphashape" },
-    { name = "coacd", marker = "python_full_version < '3.14' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "coacd", marker = "python_full_version < '3.14' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
     { name = "fast-simplification" },
     { name = "meshio" },
     { name = "newton-usd-schemas" },
-    { name = "open3d", marker = "(python_full_version < '3.13' and platform_machine != 'aarch64') or (python_full_version < '3.13' and sys_platform != 'linux') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "open3d", marker = "(python_full_version < '3.13' and platform_machine != 'aarch64') or (python_full_version < '3.13' and sys_platform != 'linux') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
     { name = "pycollada" },
     { name = "requests" },
     { name = "resolve-robotics-uri-py" },
     { name = "scipy" },
     { name = "trimesh" },
-    { name = "usd-core", marker = "(python_full_version < '3.14' and platform_machine != 'aarch64') or (python_full_version >= '3.14' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (platform_machine == 'aarch64' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
-    { name = "usd-exchange", marker = "(python_full_version < '3.13' and platform_machine == 'aarch64') or (python_full_version >= '3.13' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (platform_machine != 'aarch64' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "usd-core", marker = "(python_full_version < '3.14' and platform_machine != 'aarch64') or (python_full_version >= '3.14' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (python_full_version >= '3.14' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (platform_machine == 'aarch64' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (platform_machine == 'aarch64' and extra != 'extra-6-newton-torch-cu13' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (platform_machine == 'aarch64' and extra != 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
+    { name = "usd-exchange", marker = "(python_full_version < '3.13' and platform_machine == 'aarch64') or (python_full_version >= '3.13' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (python_full_version >= '3.13' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (platform_machine != 'aarch64' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (platform_machine != 'aarch64' and extra != 'extra-6-newton-torch-cu13' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (platform_machine != 'aarch64' and extra != 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
 ]
 notebook = [
     { name = "alphashape" },
     { name = "cbor2" },
-    { name = "coacd", marker = "python_full_version < '3.14' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "coacd", marker = "python_full_version < '3.14' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
     { name = "fast-simplification" },
     { name = "gitpython" },
     { name = "imgui-bundle" },
     { name = "jupyterlab" },
     { name = "meshio" },
-    { name = "mujoco", marker = "python_full_version < '3.14' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
-    { name = "mujoco-warp", marker = "python_full_version < '3.14' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "mujoco", marker = "python_full_version < '3.14' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
+    { name = "mujoco-warp", marker = "python_full_version < '3.14' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
     { name = "newton-actuators" },
     { name = "newton-usd-schemas" },
-    { name = "open3d", marker = "(python_full_version < '3.13' and platform_machine != 'aarch64') or (python_full_version < '3.13' and sys_platform != 'linux') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "open3d", marker = "(python_full_version < '3.13' and platform_machine != 'aarch64') or (python_full_version < '3.13' and sys_platform != 'linux') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
     { name = "pillow" },
     { name = "pycollada" },
     { name = "pyglet" },
     { name = "pyyaml" },
     { name = "requests" },
-    { name = "rerun-sdk", extra = ["notebook"], marker = "python_full_version < '3.14' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "rerun-sdk", extra = ["notebook"], marker = "python_full_version < '3.14' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
     { name = "resolve-robotics-uri-py" },
     { name = "scipy" },
     { name = "trimesh" },
-    { name = "usd-core", marker = "(python_full_version < '3.14' and platform_machine != 'aarch64') or (python_full_version >= '3.14' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (platform_machine == 'aarch64' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
-    { name = "usd-exchange", marker = "(python_full_version < '3.13' and platform_machine == 'aarch64') or (python_full_version >= '3.13' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (platform_machine != 'aarch64' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "usd-core", marker = "(python_full_version < '3.14' and platform_machine != 'aarch64') or (python_full_version >= '3.14' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (python_full_version >= '3.14' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (platform_machine == 'aarch64' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (platform_machine == 'aarch64' and extra != 'extra-6-newton-torch-cu13' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (platform_machine == 'aarch64' and extra != 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
+    { name = "usd-exchange", marker = "(python_full_version < '3.13' and platform_machine == 'aarch64') or (python_full_version >= '3.13' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (python_full_version >= '3.13' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (platform_machine != 'aarch64' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (platform_machine != 'aarch64' and extra != 'extra-6-newton-torch-cu13' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (platform_machine != 'aarch64' and extra != 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
 ]
 remesh = [
-    { name = "open3d", marker = "(python_full_version < '3.13' and platform_machine != 'aarch64') or (python_full_version < '3.13' and sys_platform != 'linux') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "open3d", marker = "(python_full_version < '3.13' and platform_machine != 'aarch64') or (python_full_version < '3.13' and sys_platform != 'linux') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
     { name = "pyfqmr" },
 ]
 sim = [
-    { name = "mujoco", marker = "python_full_version < '3.14' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
-    { name = "mujoco-warp", marker = "python_full_version < '3.14' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "mujoco", marker = "python_full_version < '3.14' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
+    { name = "mujoco-warp", marker = "python_full_version < '3.14' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
     { name = "newton-actuators" },
 ]
 torch-cu12 = [
     { name = "alphashape" },
     { name = "cbor2" },
-    { name = "coacd", marker = "python_full_version < '3.14'" },
+    { name = "coacd", marker = "(python_full_version < '3.14' and extra == 'extra-6-newton-torch-cu12') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra != 'extra-6-newton-torch-cu13' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (extra != 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
     { name = "fast-simplification" },
     { name = "gitpython" },
     { name = "imgui-bundle" },
     { name = "meshio" },
-    { name = "mujoco", marker = "python_full_version < '3.14'" },
-    { name = "mujoco-warp", marker = "python_full_version < '3.14'" },
+    { name = "mujoco", marker = "(python_full_version < '3.14' and extra == 'extra-6-newton-torch-cu12') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra != 'extra-6-newton-torch-cu13' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (extra != 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
+    { name = "mujoco-warp", marker = "(python_full_version < '3.14' and extra == 'extra-6-newton-torch-cu12') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra != 'extra-6-newton-torch-cu13' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (extra != 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
     { name = "newton-actuators" },
     { name = "newton-usd-schemas" },
-    { name = "open3d", marker = "(python_full_version < '3.13' and platform_machine != 'aarch64') or (python_full_version < '3.13' and sys_platform != 'linux')" },
+    { name = "open3d", marker = "(python_full_version < '3.13' and platform_machine != 'aarch64' and extra == 'extra-6-newton-torch-cu12') or (python_full_version < '3.13' and sys_platform != 'linux' and extra == 'extra-6-newton-torch-cu12') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
     { name = "pillow" },
     { name = "pycollada" },
     { name = "pyglet" },
@@ -2431,22 +2434,22 @@ torch-cu12 = [
     { name = "scipy" },
     { name = "torch", version = "2.11.0+cu128", source = { registry = "https://download.pytorch.org/whl/cu128" } },
     { name = "trimesh" },
-    { name = "usd-core", marker = "python_full_version < '3.14' and platform_machine != 'aarch64'" },
-    { name = "usd-exchange", marker = "python_full_version < '3.13' and platform_machine == 'aarch64'" },
+    { name = "usd-core", marker = "(python_full_version < '3.14' and platform_machine != 'aarch64' and extra == 'extra-6-newton-torch-cu12') or (python_full_version >= '3.14' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (python_full_version >= '3.14' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (platform_machine == 'aarch64' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (platform_machine == 'aarch64' and extra != 'extra-6-newton-torch-cu13' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (extra != 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
+    { name = "usd-exchange", marker = "(python_full_version < '3.13' and platform_machine == 'aarch64' and extra == 'extra-6-newton-torch-cu12') or (python_full_version >= '3.13' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (python_full_version >= '3.13' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (platform_machine != 'aarch64' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (platform_machine != 'aarch64' and extra != 'extra-6-newton-torch-cu13' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (extra != 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
 ]
 torch-cu13 = [
     { name = "alphashape" },
     { name = "cbor2" },
-    { name = "coacd", marker = "python_full_version < '3.14'" },
+    { name = "coacd", marker = "(python_full_version < '3.14' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
     { name = "fast-simplification" },
     { name = "gitpython" },
     { name = "imgui-bundle" },
     { name = "meshio" },
-    { name = "mujoco", marker = "python_full_version < '3.14'" },
-    { name = "mujoco-warp", marker = "python_full_version < '3.14'" },
+    { name = "mujoco", marker = "(python_full_version < '3.14' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
+    { name = "mujoco-warp", marker = "(python_full_version < '3.14' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
     { name = "newton-actuators" },
     { name = "newton-usd-schemas" },
-    { name = "open3d", marker = "(python_full_version < '3.13' and platform_machine != 'aarch64') or (python_full_version < '3.13' and sys_platform != 'linux')" },
+    { name = "open3d", marker = "(python_full_version < '3.13' and platform_machine != 'aarch64' and extra == 'extra-6-newton-torch-cu13') or (python_full_version < '3.13' and sys_platform != 'linux' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
     { name = "pillow" },
     { name = "pycollada" },
     { name = "pyglet" },
@@ -2456,8 +2459,8 @@ torch-cu13 = [
     { name = "scipy" },
     { name = "torch", version = "2.11.0+cu130", source = { registry = "https://download.pytorch.org/whl/cu130" } },
     { name = "trimesh" },
-    { name = "usd-core", marker = "python_full_version < '3.14' and platform_machine != 'aarch64'" },
-    { name = "usd-exchange", marker = "python_full_version < '3.13' and platform_machine == 'aarch64'" },
+    { name = "usd-core", marker = "(python_full_version < '3.14' and platform_machine != 'aarch64' and extra == 'extra-6-newton-torch-cu13') or (python_full_version < '3.14' and platform_machine != 'aarch64' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (python_full_version >= '3.14' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (python_full_version >= '3.14' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (platform_machine == 'aarch64' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (platform_machine == 'aarch64' and extra != 'extra-6-newton-torch-cu13' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (platform_machine == 'aarch64' and extra != 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
+    { name = "usd-exchange", marker = "(python_full_version < '3.13' and platform_machine == 'aarch64' and extra == 'extra-6-newton-torch-cu13') or (python_full_version >= '3.13' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (python_full_version < '3.13' and extra != 'extra-6-newton-torch-cu13' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (python_full_version >= '3.13' and extra != 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (platform_machine != 'aarch64' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (platform_machine != 'aarch64' and extra != 'extra-6-newton-torch-cu13' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (platform_machine != 'aarch64' and extra != 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra != 'extra-6-newton-torch-cu13' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
 ]
 
 [package.dev-dependencies]
@@ -2651,8 +2654,21 @@ dependencies = [
     { name = "newton" },
 ]
 
+[package.optional-dependencies]
+torch-cu12 = [
+    { name = "newton", extra = ["torch-cu12"], marker = "(extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
+]
+torch-cu13 = [
+    { name = "newton", extra = ["torch-cu13"], marker = "(extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-6-newton-torch-cu13' and extra == 'extra-9-newton-rl-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
+]
+
 [package.metadata]
-requires-dist = [{ name = "newton", editable = "submodules/newton" }]
+requires-dist = [
+    { name = "newton", editable = "submodules/newton" },
+    { name = "newton", extras = ["torch-cu12"], marker = "extra == 'torch-cu12'", editable = "submodules/newton" },
+    { name = "newton", extras = ["torch-cu13"], marker = "extra == 'torch-cu13'", editable = "submodules/newton" },
+]
+provides-extras = ["torch-cu12", "torch-cu13"]
 
 [[package]]
 name = "newton-usd-schemas"
@@ -3100,7 +3116,7 @@ source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "numpy" },
     { name = "python-dateutil" },
-    { name = "tzdata", marker = "sys_platform == 'emscripten' or sys_platform == 'win32' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "tzdata", marker = "sys_platform == 'emscripten' or sys_platform == 'win32' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/2e/0c/b28ed414f080ee0ad153f848586d61d1878f91689950f037f976ce15f6c8/pandas-3.0.1.tar.gz", hash = "sha256:4186a699674af418f655dbd420ed87f50d56b4cd6603784279d9eef6627823c8", size = 4641901, upload-time = "2026-02-17T22:20:16.434Z" }
 wheels = [
@@ -3168,7 +3184,7 @@ name = "pexpect"
 version = "4.9.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "ptyprocess", marker = "(sys_platform != 'emscripten' and sys_platform != 'win32') or (sys_platform == 'emscripten' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (sys_platform == 'win32' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "ptyprocess", marker = "(sys_platform != 'emscripten' and sys_platform != 'win32') or (sys_platform == 'emscripten' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (sys_platform == 'win32' and extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (sys_platform == 'emscripten' and extra != 'extra-6-newton-torch-cu13' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (sys_platform == 'emscripten' and extra != 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (sys_platform == 'win32' and extra != 'extra-6-newton-torch-cu13' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (sys_platform == 'win32' and extra != 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/42/92/cc564bf6381ff43ce1f4d06852fc19a2f11d180f23dc32d9588bee2f149d/pexpect-4.9.0.tar.gz", hash = "sha256:ee7d41123f3c9911050ea2c2dac107568dc43b2d3b0c7557a33212c398ead30f", size = 166450, upload-time = "2023-11-25T09:07:26.339Z" }
 wheels = [
@@ -3509,7 +3525,7 @@ name = "pympler"
 version = "1.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "pywin32", marker = "sys_platform == 'win32' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "pywin32", marker = "sys_platform == 'win32' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/dd/37/c384631908029676d8e7213dd956bb686af303a80db7afbc9be36bc49495/pympler-1.1.tar.gz", hash = "sha256:1eaa867cb8992c218430f1708fdaccda53df064144d1c5656b1e6f1ee6000424", size = 179954, upload-time = "2024-06-28T19:56:06.563Z" }
 wheels = [
@@ -3697,7 +3713,7 @@ name = "pyzmq"
 version = "27.1.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "cffi", marker = "implementation_name == 'pypy' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "cffi", marker = "implementation_name == 'pypy' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/04/0b/3c9baedbdf613ecaa7aa07027780b8867f57b6293b6ee50de316c9f3222b/pyzmq-27.1.0.tar.gz", hash = "sha256:ac0765e3d44455adb6ddbf4417dcce460fc40a05978c08efdf2948072f6db540", size = 281750, upload-time = "2025-09-08T23:10:18.157Z" }
 wheels = [
@@ -3742,7 +3758,7 @@ source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "attrs" },
     { name = "rpds-py" },
-    { name = "typing-extensions", marker = "python_full_version < '3.13' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "typing-extensions", marker = "python_full_version < '3.13' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/22/f5/df4e9027acead3ecc63e50fe1e36aca1523e1719559c499951bb4b53188f/referencing-0.37.0.tar.gz", hash = "sha256:44aefc3142c5b842538163acb373e24cce6632bd54bdb01b21ad5863489f50d8", size = 78036, upload-time = "2025-10-13T15:30:48.871Z" }
 wheels = [
@@ -4199,7 +4215,7 @@ source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "alabaster" },
     { name = "babel" },
-    { name = "colorama", marker = "sys_platform == 'win32' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "colorama", marker = "sys_platform == 'win32' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
     { name = "docutils" },
     { name = "imagesize" },
     { name = "jinja2" },
@@ -4375,8 +4391,8 @@ name = "terminado"
 version = "0.18.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "ptyprocess", marker = "os_name != 'nt' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
-    { name = "pywinpty", marker = "os_name == 'nt' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "ptyprocess", marker = "os_name != 'nt' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
+    { name = "pywinpty", marker = "os_name == 'nt' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
     { name = "tornado" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/8a/11/965c6fd8e5cc254f1fe142d547387da17a8ebfd75a3455f637c663fb38a0/terminado-0.18.1.tar.gz", hash = "sha256:de09f2c4b85de4765f7714688fff57d3e75bad1f909b589fde880460c753fd2e", size = 32701, upload-time = "2024-03-12T14:34:39.026Z" }
@@ -4418,19 +4434,19 @@ resolution-markers = [
     "python_full_version < '3.14' and sys_platform != 'emscripten' and sys_platform != 'win32'",
 ]
 dependencies = [
-    { name = "cuda-bindings", version = "12.9.6", source = { registry = "https://pypi.org/simple" }, marker = "sys_platform == 'linux'" },
-    { name = "cuda-toolkit", version = "12.8.1", source = { registry = "https://pypi.org/simple" }, extra = ["cublas", "cudart", "cufft", "cufile", "cupti", "curand", "cusolver", "cusparse", "nvjitlink", "nvrtc", "nvtx"], marker = "(sys_platform == 'linux' and extra == 'extra-6-newton-torch-cu12') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "cuda-bindings", version = "12.9.6", source = { registry = "https://pypi.org/simple" }, marker = "(sys_platform == 'linux' and extra == 'extra-6-newton-torch-cu12') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
+    { name = "cuda-toolkit", version = "12.8.1", source = { registry = "https://pypi.org/simple" }, extra = ["cublas", "cudart", "cufft", "cufile", "cupti", "curand", "cusolver", "cusparse", "nvjitlink", "nvrtc", "nvtx"], marker = "(sys_platform == 'linux' and extra == 'extra-6-newton-torch-cu12') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
     { name = "filelock" },
     { name = "fsspec" },
     { name = "jinja2" },
     { name = "networkx" },
-    { name = "nvidia-cudnn-cu12", marker = "sys_platform == 'linux'" },
-    { name = "nvidia-cusparselt-cu12", marker = "sys_platform == 'linux'" },
-    { name = "nvidia-nccl-cu12", marker = "sys_platform == 'linux'" },
-    { name = "nvidia-nvshmem-cu12", marker = "sys_platform == 'linux'" },
+    { name = "nvidia-cudnn-cu12", marker = "(sys_platform == 'linux' and extra == 'extra-6-newton-torch-cu12') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
+    { name = "nvidia-cusparselt-cu12", marker = "(sys_platform == 'linux' and extra == 'extra-6-newton-torch-cu12') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
+    { name = "nvidia-nccl-cu12", marker = "(sys_platform == 'linux' and extra == 'extra-6-newton-torch-cu12') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
+    { name = "nvidia-nvshmem-cu12", marker = "(sys_platform == 'linux' and extra == 'extra-6-newton-torch-cu12') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
     { name = "setuptools" },
     { name = "sympy" },
-    { name = "triton", marker = "sys_platform == 'linux'" },
+    { name = "triton", marker = "(sys_platform == 'linux' and extra == 'extra-6-newton-torch-cu12') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
     { name = "typing-extensions" },
 ]
 wheels = [
@@ -4464,19 +4480,19 @@ resolution-markers = [
     "python_full_version < '3.14' and sys_platform != 'emscripten' and sys_platform != 'win32'",
 ]
 dependencies = [
-    { name = "cuda-bindings", version = "13.2.0", source = { registry = "https://pypi.org/simple" }, marker = "sys_platform == 'linux'" },
-    { name = "cuda-toolkit", version = "13.0.2", source = { registry = "https://pypi.org/simple" }, extra = ["cublas", "cudart", "cufft", "cufile", "cupti", "curand", "cusolver", "cusparse", "nvjitlink", "nvrtc", "nvtx"], marker = "(sys_platform == 'linux' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "cuda-bindings", version = "13.2.0", source = { registry = "https://pypi.org/simple" }, marker = "(sys_platform == 'linux' and extra == 'extra-6-newton-torch-cu13') or (sys_platform != 'linux' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (extra != 'extra-6-newton-torch-cu13' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
+    { name = "cuda-toolkit", version = "13.0.2", source = { registry = "https://pypi.org/simple" }, extra = ["cublas", "cudart", "cufft", "cufile", "cupti", "curand", "cusolver", "cusparse", "nvjitlink", "nvrtc", "nvtx"], marker = "(sys_platform == 'linux' and extra == 'extra-6-newton-torch-cu13') or (sys_platform != 'linux' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (extra != 'extra-6-newton-torch-cu13' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
     { name = "filelock" },
     { name = "fsspec" },
     { name = "jinja2" },
     { name = "networkx" },
-    { name = "nvidia-cudnn-cu13", marker = "sys_platform == 'linux'" },
-    { name = "nvidia-cusparselt-cu13", marker = "sys_platform == 'linux'" },
-    { name = "nvidia-nccl-cu13", marker = "sys_platform == 'linux'" },
-    { name = "nvidia-nvshmem-cu13", marker = "sys_platform == 'linux'" },
+    { name = "nvidia-cudnn-cu13", marker = "(sys_platform == 'linux' and extra == 'extra-6-newton-torch-cu13') or (sys_platform != 'linux' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (extra != 'extra-6-newton-torch-cu13' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
+    { name = "nvidia-cusparselt-cu13", marker = "(sys_platform == 'linux' and extra == 'extra-6-newton-torch-cu13') or (sys_platform != 'linux' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (extra != 'extra-6-newton-torch-cu13' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
+    { name = "nvidia-nccl-cu13", marker = "(sys_platform == 'linux' and extra == 'extra-6-newton-torch-cu13') or (sys_platform != 'linux' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (extra != 'extra-6-newton-torch-cu13' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
+    { name = "nvidia-nvshmem-cu13", marker = "(sys_platform == 'linux' and extra == 'extra-6-newton-torch-cu13') or (sys_platform != 'linux' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (extra != 'extra-6-newton-torch-cu13' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
     { name = "setuptools" },
     { name = "sympy" },
-    { name = "triton", marker = "sys_platform == 'linux'" },
+    { name = "triton", marker = "(sys_platform == 'linux' and extra == 'extra-6-newton-torch-cu13') or (sys_platform != 'linux' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13') or (extra != 'extra-6-newton-torch-cu13' and extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
     { name = "typing-extensions" },
 ]
 wheels = [
@@ -4519,7 +4535,7 @@ name = "tqdm"
 version = "4.67.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "colorama", marker = "sys_platform == 'win32' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "colorama", marker = "sys_platform == 'win32' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/09/a9/6ba95a270c6f1fbcd8dac228323f2777d886cb206987444e4bce66338dd4/tqdm-4.67.3.tar.gz", hash = "sha256:7d825f03f89244ef73f1d4ce193cb1774a8179fd96f31d7e1dcde62092b960bb", size = 169598, upload-time = "2026-02-03T17:35:53.048Z" }
 wheels = [
@@ -4551,11 +4567,11 @@ wheels = [
 easy = [
     { name = "charset-normalizer" },
     { name = "colorlog" },
-    { name = "embreex", marker = "platform_machine == 'x86_64' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "embreex", marker = "platform_machine == 'x86_64' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
     { name = "httpx" },
     { name = "jsonschema" },
     { name = "lxml" },
-    { name = "manifold3d", marker = "python_full_version < '3.14' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13')" },
+    { name = "manifold3d", marker = "python_full_version < '3.14' or (extra == 'extra-6-newton-torch-cu12' and extra == 'extra-6-newton-torch-cu13') or (extra == 'extra-9-newton-rl-torch-cu12' and extra == 'extra-9-newton-rl-torch-cu13')" },
     { name = "mapbox-earcut" },
     { name = "networkx" },
     { name = "pillow" },
