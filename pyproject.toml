@@ -1,0 +1,17 @@
+[project]
+name = "newton-rl"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "newton",
+]
+
+[tool.uv.workspace]
+members = [
+    "submodules/newton",
+]
+
+[tool.uv.sources]
+newton = { workspace = true, editable = true }
