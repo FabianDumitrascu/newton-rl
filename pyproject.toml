@@ -5,7 +5,7 @@ description = "RL for Aerial Manipulation using Newton Physics"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "newton", 
+    "newton[examples, dev]",
 ]
 
 [tool.uv.workspace]
