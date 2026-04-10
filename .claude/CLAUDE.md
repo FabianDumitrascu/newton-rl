@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **newton-rl** is a thesis research project for aerial manipulation using reinforcement learning. It wraps the [Newton physics engine](https://github.com/newton-physics/newton) (GPU-accelerated, built on NVIDIA Warp) as a git submodule in editable mode.
 
-The goal is to train RL policies for a real aerial manipulator: a quadcopter with a 2-DOF arm (pitch + roll) and a 1-DOF parallel gripper. The system uses a hybrid control architecture — an INDI inner-loop controller handles flight stability at high frequency while the RL policy outputs attitude commands and arm joint targets at a lower frequency.
+The goal is to train RL policies for a real aerial manipulator: a quadcopter with a 2-DOF arm (pitch + roll) and a 1-DOF parallel gripper (rack-and-pinion, both fingers move together). The system uses a hybrid control architecture — an INDI inner-loop controller handles flight stability at high frequency while the RL policy outputs collective thrust + body rate commands and arm joint targets at a lower frequency.
 
 ## Tech Stack
 
@@ -93,6 +93,10 @@ newton-rl/
 │   ├── platform.yaml        # Drone mass, prop coefficients, arm specs
 │   └── tasks/               # Per-task reward weights, curriculum stages
 ├── assets/                  # USD models, meshes
+│   ├── flattened-osprey.usd # Primary drone model (embedded meshes)
+│   └── osprey-correct-usd.usd # Unflattened version
+├── reference_code/          # Old Isaac Lab codebase (not runnable, for reference only)
+│   └── osprey_rl/           # INDI controller, rewards, task configs, physical params
 ├── testing/                 # Development scripts, simulation demos
 ├── submodules/newton/       # Physics engine (git submodule, editable)
 │   └── newton/
@@ -107,10 +111,10 @@ newton-rl/
 ### Control Flow (Training)
 
 ```
-RL Policy (25-50 Hz, skrl PPO)
+RL Policy (configurable frequency, skrl PPO)
   │
-  ├─ Attitude commands (roll, pitch, yaw_rate, thrust)
-  │     → INDI controller (sim frequency, 250-1000 Hz)
+  ├─ Collective thrust + body rates (T, p, q, r)
+  │     → INDI controller (sim frequency, configurable)
   │         → 4 motor force/torque applied to drone body
   │
   └─ Joint position targets (arm pitch, arm roll, gripper)
@@ -120,9 +124,9 @@ RL Policy (25-50 Hz, skrl PPO)
 
 ### Simulation Loop (per env.step())
 
-1. Receive RL action (7D: 4 attitude + 3 joint targets)
+1. Receive RL action (7D: 4 drone [thrust, p, q, r] + 3 joint targets)
 2. Run N substeps at sim frequency:
-   a. INDI computes motor commands from attitude error
+   a. INDI computes motor commands from body rate error
    b. PD computes joint torques from position error
    c. Apply forces → `model.collide()` → `solver.step()`
 3. Extract observations from final state
@@ -139,7 +143,8 @@ All data stays on GPU throughout: Newton state → `wp.to_torch()` → skrl poli
 
 - **Python style**: Follow ruff defaults, PEP 604 unions (`x | None`)
 - **Type hints**: All public functions must be typed
-- **Config-driven**: Task parameters, rewards, curriculum stages defined in YAML, not hardcoded
+- **Config-driven**: Task parameters, rewards, curriculum stages, simulation frequencies — all defined in config, not hardcoded
+- **Easily iterable**: Observations, rewards, and action spaces must be easy to add/remove/adjust for rapid experimentation
 - **Task abstraction**: Each task defines `compute_observations()`, `compute_rewards()`, `check_termination()`, `reset_task()`
 - **No premature optimization**: Start with Python loops, move to Warp kernels only when profiling shows bottlenecks
 
@@ -188,6 +193,10 @@ while running:
 | `.claude/PRD.md` | Full Product Requirements Document |
 | `.claude/research/` | 8 research files from Newton codebase exploration |
 | `.claude/research/08-design-decisions.md` | All resolved design decisions |
+| `reference_code/osprey_rl/` | Old Isaac Lab codebase — INDI controller, rewards, task configs (not runnable) |
+| `reference_code/osprey_rl/osprey_rl/mdp/controller/indi.py` | Reference INDI implementation with real drone parameters |
+| `reference_code/osprey_rl/osprey_rl/mdp/controller/motor_model.py` | Reference motor dynamics model |
+| `reference_code/osprey_rl/osprey_rl/assets/` | USD models and manipulation assets |
 | `submodules/newton/newton/examples/diffsim/example_diffsim_drone.py` | Reference drone example (Crazyflie) |
 | `submodules/newton/newton/examples/robot/example_robot_panda_hydro.py` | Reference grasping example |
 | `submodules/newton/newton/_src/solvers/kamino/examples/rl/` | Newton's existing RL infrastructure |
@@ -225,7 +234,12 @@ Earlier research summaries from initial codebase exploration. The references abo
 ## Important Notes
 
 - **Solver choice**: Start with SolverMuJoCo or SolverXPBD (mature). Switch to SolverKamino for training throughput if needed.
+- **Force application**: Apply rotor thrust/torque as external forces on bodies (not via spinning joints). Spinning rotors at thousands of RPM may destabilize the solver. Rotor joints can spin visually at capped speed for rendering only.
 - **Grasping**: Use contact-force grasping (friction-based) as primary approach. Pre-allocated fixed joints as fallback.
+- **Gripper**: Rack-and-pinion mechanism — both fingers open/close together as a single DOF.
 - **Multi-world**: Newton supports 512-4096 parallel environments on GPU via `builder.replicate()` or `begin_world()`/`end_world()`.
 - **No domain randomization** in first version — add later for sim-to-real transfer.
 - **Curriculum learning**: Single policy trained with progressive difficulty (hover → navigate → grasp → manipulate). Auto-advance when success_rate > threshold.
+- **Configurability**: All frequencies (sim, control, policy), parameters, observation/reward terms must be config-driven for rapid iteration.
+- **USD model**: `flattened-osprey.usd` is the primary model. Joint names use `dof_*` prefix (`dof_differential`, `dof_arm`, `dof_finger_left`, `dof_finger_right`).
+- **Reference code**: `reference_code/osprey_rl/` contains the old Isaac Lab-based project. Not runnable with Newton but useful for INDI logic, reward design, and parameter reference.

@@ -1,71 +1,33 @@
-1,
-A
+1 
+a: yes these physical parameters are approximately correct since the aerial manipulator got larger rotors on the front to compensate for when lifting objects. However we would like to refactor the code to have a structured configuration to easily change parameters and maybe also amke it easily extensible for in the future that we have some builder pipeline which couples all the correct params with the configs and usd files.
+b: I want you to definitely use the Newton API since I dont know for sure whether this function exists in Newton, however I also want stability, so I dont know if the simulator is capable of simulating thousands of RPM and staying stable, so maybe the workaround by applying the forces directly and only visually rotating the joints makes more sense?
+c: yes this matters, however I dont know whether the old legdacy code does anything ain the correct way so everything needs to be researched again and done in the Newton way.
 
-2,
-A 
+2
+d: just use INDI with collective thrust and body rates
+e: this is a bug
+f: we can ignore this for now
 
-3,
-B
+3
+g: the RL policy should actually get the collective thrust plus body rates, so this also has to be updated in the prd and any other relevant locations
+h: you should use the best way which works together with Newton, the fingers are a rack and pinion system so they should open and close together. It would be nice to have some explicit control over how fast the arms can move and with what kind of tuning in real life it is also a PD controller.
 
-4,
-B
+4
+i: quaternion, however we should be able to really easily adjust what our observations are to have a ncie closed iterative loop when testing
+j: we should add normalization 
+k: it should be body frame
 
-5,
-A
+5
+l: all of these values ar enot optimized this was justg me playing around, the main goal is to just have some framework where I can realy easily add rewards and adjust rewards
+m: it did not work, there were many glitches, that's also the reason I am trying to switch to this new simulator now.
 
-6,
-A
+6
+n: I have no clue at what actual frequencies everything runs IRL, pls make sure that this is easily configurable
+o: I could even run more, these are just random values for testing when I didnt run it in headless mode
 
-7,
-A
+7
+p: flattened-osprey.usd is the main file, which is the whole system + fingers, we need to copy this file together with the unflattened one inside our repo.
+q: the dof* ones are the correct configs, (look for the ones that use the flattened osprey one)
 
-8,
-B
-
-9,
-C
-
-10,
-D
-
-11,
-X we will define this later on, per task but image for example valve turning, the goal would be to learn to open the valve a full 360 degrees, where the valve also has for example mroe friciton in the beginning stadium than when it is opened more (custom torque curve). With succes when opened 100% and the drone did not crash. I imagine when training that we will also do some curriculum learning where the valve first is very easy to open to learn the basic task and then gets progressively harder.
-
-12,
-A
-
-13,
-X: for now I will be using my rtx4070 laptop GPU, however in the future I will have access to a 5090
-
-14,
-E
-
-15,
-B
-
-16,
-D
-
-17,
-X I think we will start with mujoco or xpbd and later maybe switch to kamino if any issues arise
-
-18,
-D
-
-19,
-D (we will definitely add it later on but not in the first version)
-
-20,
-X depends per scenario, however A and B will prbably be universal
-
-21,
-C
-
-22,
-B
-
-23,
-B
-
-24,
-D we will add specific scenarios to test and train on like a gate valve, sliding door, microwave door etc
+8
+r: I agree, we first need to verify it in the sim before we build the RL pipeline

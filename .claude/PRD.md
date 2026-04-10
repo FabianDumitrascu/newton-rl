@@ -132,7 +132,8 @@ newton-rl/
 ├── models/                  # Neural network architectures
 │   └── mlp_policy.py        # MLP actor-critic
 ├── assets/                  # USD models, meshes
-│   └── aerial_manipulator.usd
+│   ├── flattened-osprey.usd # Primary model (drone + arm + gripper, embedded meshes)
+│   └── osprey-correct-usd.usd # Unflattened version (references external parts)
 ├── testing/                 # Development scripts, demos
 ├── submodules/newton/       # Physics engine (git submodule)
 ├── main.py                  # Entry point
@@ -144,7 +145,7 @@ newton-rl/
 1. **Task abstraction:** Each task (hover, navigate, grasp) defines its own `compute_observations()`, `compute_rewards()`, `check_termination()`, and `reset_task()`. The base environment handles simulation stepping, multi-world management, and controller integration.
 
 2. **Controller-in-the-loop:** The INDI controller and PD joint controllers run *inside* the simulation substep loop, not as part of the RL policy. The environment's `step()` method:
-   - Receives RL action (attitude commands + joint targets)
+   - Receives RL action (collective thrust + body rates + joint targets)
    - Runs N substeps, each calling INDI at sim frequency
    - Returns observation after all substeps complete
 
@@ -160,28 +161,36 @@ newton-rl/
 
 **Purpose:** Accurate quadcopter flight dynamics matching real platform.
 
-- Propeller force model: `F = C_T * rho * n^2 * d^4` per rotor
-- Reaction torque model: `tau = C_P * rho * n^2 * d^5 / (2*pi)` per rotor
-- Alternating turning directions for yaw authority
-- Moment arm cross product for roll/pitch from offset thrust
-- Configurable parameters from real hardware specs
+- Propeller force model: `T = C_T * omega^2` per rotor (simplified, coefficients from real hardware)
+- Reaction torque model: `tau = C_M * omega^2 * direction` per rotor
+- Asymmetric rotor configuration: front rotors (C_T=3.1e-6) are stronger than back (C_T=1.5e-6) to compensate for payload
+- Tilted rotor geometry: front beta=53.53deg, back beta=41.42deg
+- G1 mixing matrix maps [total_thrust, tau_x, tau_y, tau_z] to individual rotor thrusts
+- Motor dynamics: first-order low-pass response (tau=0.033s)
+- Forces applied as external body forces (not via spinning joints) for solver stability
+- All parameters configurable via structured config
 
 ### F2: INDI Inner-Loop Controller
 
 **Purpose:** Attitude stabilization at high frequency, decoupling flight stability from RL task learning.
 
-- Input: desired angular rates (p, q, r) + collective thrust
-- Output: 4 motor commands (RPM or normalized thrust)
-- Runs at sim frequency (250-1000 Hz, to be benchmarked)
-- Ported from existing codebase with parameter matching
+- Input: collective thrust + desired body rates (p, q, r) from RL policy
+- Output: 4 rotor speed commands → motor model → forces/torques
+- INDI law: `mu = tau_filtered + J * (alpha_cmd - omega_dot_filtered)`
+- Inverse allocation: `thrusts = G1_inv @ mu`
+- Second-order Butterworth low-pass filters on gyro and motor speed signals
+- Accounts for manipulator inertia coupling via `get_total_J(joint_pos)`
+- All frequencies and gains configurable (no hardcoded sample rates)
+- Ported from existing codebase (`reference_code/osprey_rl/osprey_rl/mdp/controller/indi.py`)
 
 ### F3: Arm & Gripper Control
 
 **Purpose:** Position-controlled 2-DOF arm and 1-DOF gripper.
 
-- PD controller with configurable gains (stiffness `ke`, damping `kd`)
+- PD controller with configurable gains (stiffness `kp`, damping `kd`)
 - Joint limits enforced by Newton solver
-- Gripper open/close as continuous position target (not binary)
+- Gripper is rack-and-pinion: both fingers move together as single DOF
+- Gripper open/close as continuous position target
 - Contact force feedback via `SensorContact`
 
 ### F4: Vectorized RL Environment
@@ -267,10 +276,12 @@ dependencies = [
 
 ### Configuration Management
 
-- **Simulation config:** `configs/sim.yaml` — dt, solver, substeps, num_envs
-- **Task config:** `configs/tasks/{task_name}.yaml` — obs/action dims, reward weights, curriculum stages
+- **Simulation config:** `configs/sim.yaml` — dt, solver, substeps, num_envs, sim frequency, control frequency, policy frequency
+- **Task config:** `configs/tasks/{task_name}.yaml` — observation terms, reward terms + weights, curriculum stages, termination conditions
 - **Training config:** `configs/train.yaml` — PPO hyperparams, learning rate, batch size, epochs
-- **Platform config:** `configs/platform.yaml` — drone mass, prop coefficients, arm dimensions, joint limits
+- **Platform config:** `configs/platform.yaml` — drone mass, prop coefficients (per-rotor), arm dimensions, joint limits, INDI gains, filter parameters, motor time constants, G1 mixing matrix geometry
+
+All configs must support rapid iteration — changing observation terms, reward weights, or frequencies should require only config changes, not code modifications.
 
 ### Environment Variables
 
@@ -291,32 +302,36 @@ Not applicable — this is a local research tool, not a deployed service.
 | Component | Dimensions | Description |
 |-----------|:----------:|-------------|
 | Drone position | 3 | World-frame (x, y, z) [m] |
-| Drone orientation | 9 | Rotation matrix (flattened 3x3) |
+| Drone orientation | 4 | Quaternion [w, x, y, z] |
 | Drone linear velocity | 3 | Body-frame (vx, vy, vz) [m/s] |
 | Drone angular velocity | 3 | Body-frame (p, q, r) [rad/s] |
 | Drone angular acceleration | 3 | Body-frame [rad/s^2] |
 | IMU accelerometer | 3 | Body-frame acceleration [m/s^2] |
 | Arm joint positions | 2 | (pitch, roll) [rad] |
 | Arm joint velocities | 2 | [rad/s] |
-| Gripper position | 1 | Open/close [m or rad] |
-| Gripper velocity | 1 | [m/s or rad/s] |
-| Target object pose (relative) | 7 | Relative position (3) + quaternion (4) |
+| Gripper position | 1 | Open/close [rad] |
+| Gripper velocity | 1 | [rad/s] |
+| Target object pose (relative) | 7 | Relative position (3) + quaternion (4) in body frame |
 | Finger contact forces | 6 | Left (3) + right (3) force vectors [N] |
 | Previous action | N_act | For smoothness |
-| **Total** | **~43+** | Exact count depends on task |
+| **Total** | **~38+** | Exact count depends on task |
+
+Note: Observations should be normalized. Observation terms must be easily configurable — add/remove/adjust per task without code changes. Body-frame is used for velocities and accelerations (matches real flight controller). Quaternion preferred over rotation matrix for orientation.
 
 ### Action Space (Hybrid)
 
 | Component | Dimensions | Range | Controller |
 |-----------|:----------:|:-----:|-----------|
-| Roll command | 1 | [-30, +30] deg | INDI → motors |
-| Pitch command | 1 | [-30, +30] deg | INDI → motors |
-| Yaw rate command | 1 | [-180, +180] deg/s | INDI → motors |
-| Thrust command | 1 | [0, 1] normalized | INDI → motors |
+| Collective thrust | 1 | [0, T_max] N | INDI → motors |
+| Roll rate (p) | 1 | [-ω_max, +ω_max] rad/s | INDI → motors |
+| Pitch rate (q) | 1 | [-ω_max, +ω_max] rad/s | INDI → motors |
+| Yaw rate (r) | 1 | [-ω_max, +ω_max] rad/s | INDI → motors |
 | Arm pitch target | 1 | joint limits [rad] | PD controller |
 | Arm roll target | 1 | joint limits [rad] | PD controller |
 | Gripper target | 1 | [open, closed] [rad] | PD controller |
 | **Total** | **7** | | |
+
+Note: RL policy outputs collective thrust + body rates, not attitude angles. The INDI controller converts these into individual motor commands via the G1 allocation matrix. All ranges are configurable.
 
 ---
 
