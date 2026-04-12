@@ -228,6 +228,98 @@ class BodyIndices:
 
 
 @dataclass
+class JointFrameData:
+    """Anchor transform for a single joint.
+
+    Positions in meters, quaternions in XYZW format (Warp convention).
+    """
+
+    parent_pos: tuple[float, float, float]
+    parent_rot_xyzw: tuple[float, float, float, float]
+    child_pos: tuple[float, float, float]
+    child_rot_xyzw: tuple[float, float, float, float]
+
+
+@dataclass
+class JointFrames:
+    """Joint anchor transforms for all Osprey joints.
+
+    Values extracted from the USD file's localPos0/localRot0/localPos1/localRot1.
+    Quaternions converted from USD WXYZ to Warp XYZW format.
+    """
+
+    dof_differential: JointFrameData = field(
+        default_factory=lambda: JointFrameData(
+            parent_pos=(0.06968, 0.0, 0.04771),
+            parent_rot_xyzw=(0.0, 0.0, 0.0, 1.0),
+            child_pos=(0.01458, 0.0, 0.00209),
+            child_rot_xyzw=(0.0, 0.0, 0.0, 1.0),
+        )
+    )
+    dof_arm: JointFrameData = field(
+        default_factory=lambda: JointFrameData(
+            parent_pos=(-0.00049, 0.0, -0.00013),
+            parent_rot_xyzw=(0.0, 0.0, 0.0, 1.0),
+            child_pos=(0.0, 0.0, 0.0),
+            child_rot_xyzw=(0.0, 0.0, 0.0, 1.0),
+        )
+    )
+    dof_finger_left: JointFrameData = field(
+        default_factory=lambda: JointFrameData(
+            parent_pos=(0.15011, 0.04307, -0.00043),
+            parent_rot_xyzw=(-0.5, 0.5, -0.5, 0.5),  # USD WXYZ (0.5,-0.5,0.5,-0.5)
+            child_pos=(0.0, 0.0, 0.0),
+            child_rot_xyzw=(0.0, 0.0, 0.0, 1.0),
+        )
+    )
+    dof_finger_right: JointFrameData = field(
+        default_factory=lambda: JointFrameData(
+            parent_pos=(0.15011, -0.04307, -0.00043),
+            parent_rot_xyzw=(
+                0.70711,
+                0.70711,
+                0.0,
+                0.0,
+            ),  # USD WXYZ (~0,0.70711,0.70711,~0)
+            child_pos=(0.0, 0.0, 0.0),
+            child_rot_xyzw=(0.0, 0.0, 0.0, 1.0),
+        )
+    )
+    rotor_front_right: JointFrameData = field(
+        default_factory=lambda: JointFrameData(
+            parent_pos=(0.11101, -0.11367, 0.09629),
+            parent_rot_xyzw=(0.0, 0.0, 0.0, 1.0),
+            child_pos=(0.0, 0.0, 0.0),
+            child_rot_xyzw=(0.0, 0.0, 0.0, 1.0),
+        )
+    )
+    rotor_front_left: JointFrameData = field(
+        default_factory=lambda: JointFrameData(
+            parent_pos=(0.11101, 0.11367, 0.09629),
+            parent_rot_xyzw=(0.0, 0.0, 0.0, 1.0),
+            child_pos=(0.0, 0.0, 0.0),
+            child_rot_xyzw=(0.0, 0.0, 0.0, 1.0),
+        )
+    )
+    rotor_back_left: JointFrameData = field(
+        default_factory=lambda: JointFrameData(
+            parent_pos=(-0.05812, 0.07620, 0.09629),
+            parent_rot_xyzw=(0.0, 0.0, 0.0, 1.0),
+            child_pos=(0.0, 0.0, 0.0),
+            child_rot_xyzw=(0.0, 0.0, 0.0, 1.0),
+        )
+    )
+    rotor_back_right: JointFrameData = field(
+        default_factory=lambda: JointFrameData(
+            parent_pos=(-0.05812, -0.07620, 0.09629),
+            parent_rot_xyzw=(0.0, 0.0, 0.0, 1.0),
+            child_pos=(0.0, 0.0, 0.0),
+            child_rot_xyzw=(0.0, 0.0, 0.0, 1.0),
+        )
+    )
+
+
+@dataclass
 class OspreyConfig:
     """Top-level configuration container for the Osprey aerial manipulator."""
 
@@ -239,6 +331,7 @@ class OspreyConfig:
     sim: SimConfig = field(default_factory=SimConfig)
     arm: ArmConfig = field(default_factory=ArmConfig)
     body: BodyIndices = field(default_factory=BodyIndices)
+    joints: JointFrames = field(default_factory=JointFrames)
 
     @property
     def total_mass(self) -> float:

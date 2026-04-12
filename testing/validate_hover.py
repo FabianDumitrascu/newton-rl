@@ -1,8 +1,8 @@
 """Interactive hover validation script for the Osprey aerial manipulator.
 
-Loads the USD model into Newton, runs the INDI flight controller, and provides
-an interactive viewer with GUI sliders for thrust, body rates, and arm positions.
-Use this to verify that:
+Builds the model programmatically via build_osprey(), runs the INDI flight
+controller, and provides an interactive viewer with GUI sliders for thrust,
+body rates, and arm positions. Use this to verify that:
   - Hover thrust matches mg (~8.4N)
   - INDI controller stabilizes the drone
   - Arm movement causes visible but compensated coupling
@@ -10,15 +10,10 @@ Use this to verify that:
 
 from __future__ import annotations
 
-from pathlib import Path
-
-import numpy as np
 import torch
-import trimesh
 import warp as wp
 
 import newton
-import newton.usd
 
 from controllers.config import OspreyConfig, default_osprey_config
 from controllers.indi import IndiController
@@ -29,8 +24,8 @@ from controllers.motor_model import RotorMotor
 class HoverValidator:
     """Interactive drone hover validation with Newton viewer.
 
-    Loads the Osprey USD model, initializes controllers, and runs a simulation
-    loop with GUI controls for manual flight testing.
+    Builds the Osprey model programmatically, initializes controllers, and runs
+    a simulation loop with GUI controls for manual flight testing.
     """
 
     def __init__(self, config: OspreyConfig | None = None) -> None:
@@ -62,122 +57,33 @@ class HoverValidator:
         self.reset_requested = False
 
     def _build_model(self) -> None:
-        """Load USD and build Newton model with correct mass/inertia."""
-        builder = newton.ModelBuilder()
-        builder.add_ground_plane()
+        """Build Newton model programmatically via build_osprey()."""
+        from controllers.osprey_model import build_osprey
 
-        spawn_xform = wp.transform(
-            p=wp.vec3(0.0, 0.0, self.cfg.sim.spawn_height),
-            q=wp.quat_identity(),
-        )
-        self.usd_result = builder.add_usd(
-            "assets/flattened-osprey.usd",
-            floating=True,
-            xform=spawn_xform,
-            enable_self_collisions=False,
-        )
+        osprey = build_osprey(self.cfg, spawn_pos=(0.0, 0.0, self.cfg.sim.spawn_height))
 
-        # Set mass properties — USD has zero mass on all drone bodies
-        bi = self.cfg.body
-        rotor_mass = 0.01  # Small mass per rotor body
-        finger_mass = 0.005  # Small mass per finger
+        scene = newton.ModelBuilder()
+        scene.add_ground_plane()
+        scene.add_world(osprey)
 
-        # Base drone body gets the bulk of falcon_mass
-        base_mass = self.cfg.inertia.falcon_mass - 4 * rotor_mass
-        builder.body_mass[bi.base] = base_mass
-        builder.body_inertia[bi.base] = tuple(
-            self.cfg.inertia.base_inertia_diag[i] if i == j else 0.0
-            for i in range(3)
-            for j in range(3)
-        )
-        builder.body_com[bi.base] = tuple(self.cfg.inertia.base_com)
-
-        # Arm bodies split the manipulator mass
-        arm_body_mass = self.cfg.inertia.manipulator_mass - 2 * finger_mass
-        builder.body_mass[bi.differential] = arm_body_mass * 0.3
-        builder.body_mass[bi.arm] = arm_body_mass * 0.7
-
-        # Fingers
-        builder.body_mass[bi.finger_left] = finger_mass
-        builder.body_mass[bi.finger_right] = finger_mass
-
-        # Rotors
-        for ridx in bi.rotor_indices_ref_order:
-            builder.body_mass[ridx] = rotor_mass
-
-        # Set arm/gripper PD gains
-        arm = self.cfg.arm
-        # dof_differential (arm pitch)
-        builder.joint_target_ke[arm.differential_dof] = arm.arm_ke
-        builder.joint_target_kd[arm.differential_dof] = arm.arm_kd
-        # dof_arm (arm roll)
-        builder.joint_target_ke[arm.arm_dof] = arm.arm_ke
-        builder.joint_target_kd[arm.arm_dof] = arm.arm_kd
-        # Fingers
-        builder.joint_target_ke[arm.finger_left_dof] = arm.gripper_ke
-        builder.joint_target_kd[arm.finger_left_dof] = arm.gripper_kd
-        builder.joint_target_ke[arm.finger_right_dof] = arm.gripper_ke
-        builder.joint_target_kd[arm.finger_right_dof] = arm.gripper_kd
-
-        # Disable PD on rotor joints (force-driven)
-        for dof in range(10, 14):  # rotor DOFs
-            builder.joint_target_ke[dof] = 0.0
-            builder.joint_target_kd[dof] = 0.0
-
-        # Load actual mesh geometry from OBJ files (converted from STEP).
-        # STEP files are in mm, so we scale vertices by 0.001 to meters.
-        mesh_dir = Path("assets/meshes")
-        visual_cfg = newton.ModelBuilder.ShapeConfig(density=0.0, collision_group=0)
-
-        body_mesh_map = {
-            bi.base: "link_body",
-            bi.differential: "link_differential",
-            bi.arm: "link_arm",
-            bi.finger_left: "link_finger_left",
-            bi.finger_right: "link_finger_right",
-            bi.rotor_front_right: "link_rotor_front_right",
-            bi.rotor_front_left: "link_rotor_front_left",
-            bi.rotor_back_left: "link_rotor_back_left",
-            bi.rotor_back_right: "link_rotor_back_right",
-        }
-
-        for body_idx, mesh_name in body_mesh_map.items():
-            obj_path = mesh_dir / f"{mesh_name}.obj"
-            if not obj_path.exists():
-                print(f"  Warning: {obj_path} not found, skipping")
-                continue
-            tm = trimesh.load(str(obj_path))
-            # Scale mm → meters
-            vertices = (tm.vertices * 0.001).astype(np.float32)
-            indices = tm.faces.flatten().astype(np.int32)
-            mesh = newton.Mesh(vertices=vertices, indices=indices)
-            builder.add_shape_mesh(body=body_idx, mesh=mesh, cfg=visual_cfg)
-
-        # Collision shape on base body (convex hull for ground interaction)
-        base_obj = mesh_dir / "link_body.obj"
-        if base_obj.exists():
-            tm_base = trimesh.load(str(base_obj))
-            base_verts = (tm_base.vertices * 0.001).astype(np.float32)
-            base_indices = tm_base.faces.flatten().astype(np.int32)
-            base_mesh = newton.Mesh(vertices=base_verts, indices=base_indices)
-            collision_cfg = newton.ModelBuilder.ShapeConfig(density=0.0, mu=0.8)
-            builder.add_shape_convex_hull(
-                body=bi.base, mesh=base_mesh, cfg=collision_cfg
-            )
-
-        self.model = builder.finalize()
+        self.model = scene.finalize()
         self.state_0 = self.model.state()
         self.state_1 = self.model.state()
         self.control = self.model.control()
-        self.contacts = self.model.contacts()
+        self.contacts = None  # MuJoCo uses its own contact pipeline
 
-        self.solver = newton.solvers.SolverXPBD(
+        # Compute initial body positions from joint chain
+        newton.eval_fk(
+            self.model, self.model.joint_q, self.model.joint_qd, self.state_0
+        )
+
+        self.solver = newton.solvers.SolverMuJoCo(
             self.model, iterations=self.cfg.sim.solver_iterations
         )
 
         # Print mass verification
         masses = self.model.body_mass.numpy()
-        total = sum(masses[i] for i in range(9))  # Bodies 0-8 are drone
+        total = sum(float(masses[i]) for i in range(9))
         print(f"Drone total mass: {total:.3f} kg (expected {self.cfg.total_mass:.3f})")
         print(f"Expected hover thrust: {self.cfg.hover_thrust:.2f} N")
 
@@ -332,8 +238,7 @@ class HoverValidator:
             # Update arm joint targets
             self._update_arm_targets()
 
-            # Physics step
-            self.model.collide(self.state_0, self.contacts)
+            # Physics step (MuJoCo handles contacts internally)
             self.solver.step(
                 self.state_0, self.state_1, self.control, self.contacts, dt
             )
@@ -345,6 +250,9 @@ class HoverValidator:
         """Reset simulation to initial state."""
         self.state_0 = self.model.state()
         self.state_1 = self.model.state()
+        newton.eval_fk(
+            self.model, self.model.joint_q, self.model.joint_qd, self.state_0
+        )
         self.sim_time = 0.0
 
         # Reset controllers
@@ -444,7 +352,6 @@ class HoverValidator:
 
             self.viewer.begin_frame(self.sim_time)
             self.viewer.log_state(self.state_0)
-            self.viewer.log_contacts(self.contacts, self.state_0)
             self.viewer.end_frame()
 
         print(f"Simulation ended. Total time: {self.sim_time:.2f} s")
