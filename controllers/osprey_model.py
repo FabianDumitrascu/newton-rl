@@ -43,14 +43,32 @@ def _make_xform(frame: JointFrameData, is_parent: bool) -> wp.transform:
     )
 
 
+def _load_obj_mesh(mesh_dir: Path, mesh_name: str) -> newton.Mesh | None:
+    """Load an OBJ file and return a Newton Mesh (mm scaled to meters).
+
+    Args:
+        mesh_dir: Directory containing OBJ files.
+        mesh_name: Filename without .obj extension.
+
+    Returns:
+        Newton Mesh, or None if the file doesn't exist.
+    """
+    obj_path = mesh_dir / f"{mesh_name}.obj"
+    if not obj_path.exists():
+        print(f"  Warning: {obj_path} not found, skipping")
+        return None
+    tm = trimesh.load(str(obj_path))
+    vertices = (tm.vertices * 0.001).astype(np.float32)
+    indices = tm.faces.flatten().astype(np.int32)
+    return newton.Mesh(vertices=vertices, indices=indices)
+
+
 def _load_visual_meshes(
     builder: newton.ModelBuilder,
     body_mesh_map: dict[int, str],
     mesh_dir: Path,
 ) -> None:
     """Load OBJ visual meshes and attach to bodies.
-
-    STEP files are in mm, so vertices are scaled by 0.001 to meters.
 
     Args:
         builder: ModelBuilder to add shapes to.
@@ -60,15 +78,9 @@ def _load_visual_meshes(
     visual_cfg = newton.ModelBuilder.ShapeConfig(density=0.0, collision_group=0)
 
     for body_idx, mesh_name in body_mesh_map.items():
-        obj_path = mesh_dir / f"{mesh_name}.obj"
-        if not obj_path.exists():
-            print(f"  Warning: {obj_path} not found, skipping visual mesh")
-            continue
-        tm = trimesh.load(str(obj_path))
-        vertices = (tm.vertices * 0.001).astype(np.float32)
-        indices = tm.faces.flatten().astype(np.int32)
-        mesh = newton.Mesh(vertices=vertices, indices=indices)
-        builder.add_shape_mesh(body=body_idx, mesh=mesh, cfg=visual_cfg)
+        mesh = _load_obj_mesh(mesh_dir, mesh_name)
+        if mesh is not None:
+            builder.add_shape_mesh(body=body_idx, mesh=mesh, cfg=visual_cfg)
 
 
 def build_osprey(
@@ -320,20 +332,20 @@ def build_osprey(
         cfg=collision_cfg,
     )
 
-    # Finger collision boxes for future grasping contact
-    builder.add_shape_box(
-        body=link_finger_left,
-        hx=0.024,
-        hy=0.010,
-        hz=0.035,
-        cfg=collision_cfg,
+    # Finger collision: convex hulls from actual mesh geometry.
+    # Convex hulls are in the correct body-local frame (matching the visual mesh),
+    # unlike boxes which had wrong orientation due to rotated body frames.
+    finger_collision_cfg = newton.ModelBuilder.ShapeConfig(
+        density=0.0, mu=1.0, collision_group=1
     )
-    builder.add_shape_box(
-        body=link_finger_right,
-        hx=0.024,
-        hy=0.010,
-        hz=0.035,
-        cfg=collision_cfg,
-    )
+    for body_idx, mesh_name in [
+        (link_finger_left, "link_finger_left"),
+        (link_finger_right, "link_finger_right"),
+    ]:
+        mesh = _load_obj_mesh(mesh_dir, mesh_name)
+        if mesh is not None:
+            builder.add_shape_convex_hull(
+                body=body_idx, mesh=mesh, cfg=finger_collision_cfg
+            )
 
     return builder
