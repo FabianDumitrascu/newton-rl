@@ -21,6 +21,7 @@ members = ["submodules/newton"]
 [project.optional-dependencies]
 torch-cu12 = ["newton[torch-cu12]"]
 torch-cu13 = ["newton[torch-cu13]"]
+rc = ["evdev>=1.7"]
 
 [[tool.uv.index]]
 name = "pytorch-cu128"

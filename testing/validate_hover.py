@@ -56,6 +56,11 @@ class HoverValidator:
         # Reset flag
         self.reset_requested = False
 
+        # RC controller input (optional -- falls back to GUI-only)
+        from controllers.rc_input import RCInput, RCInputConfig
+
+        self.rc = RCInput(RCInputConfig(), frame_dt=self.cfg.sim.frame_dt)
+
     def _build_model(self) -> None:
         """Build Newton model programmatically via build_osprey()."""
         from controllers.osprey_model import build_osprey
@@ -276,6 +281,11 @@ class HoverValidator:
 
     def gui(self, ui) -> None:
         """Imgui callback for viewer GUI."""
+        if self.rc.connected:
+            ui.text("RC: Connected (USB)")
+        else:
+            ui.text("RC: Not connected (GUI only)")
+        ui.separator()
         ui.text("=== Flight Commands ===")
 
         changed, self.cmd_thrust = ui.slider_float(
@@ -331,6 +341,14 @@ class HoverValidator:
         self.viewer.set_camera(pos=wp.vec3(-1.0, 0.0, 3.0), pitch=-30.0, yaw=0.0)
 
         while self.viewer.is_running():
+            # Poll RC controller (non-blocking, no-op if disconnected)
+            if self.rc.connected:
+                self.rc.poll()
+                self.cmd_thrust = self.rc.thrust
+                self.cmd_roll_rate = self.rc.roll_rate
+                self.cmd_pitch_rate = self.rc.pitch_rate
+                self.cmd_yaw_rate = self.rc.yaw_rate
+
             if self.viewer.is_key_down("r") or self.reset_requested:
                 self.reset()
             elif not self.viewer.is_paused():
