@@ -10,6 +10,8 @@ body rates, and arm positions. Use this to verify that:
 
 from __future__ import annotations
 
+import math
+
 import torch
 import warp as wp
 
@@ -354,18 +356,22 @@ class HoverValidator:
             elif not self.viewer.is_paused():
                 self.step()
 
-            # Camera follows drone position
+            # Camera follows drone position and yaw
             body_q = self.state_0.body_q.numpy()
             drone_pos = body_q[self.cfg.body.base][:3]
-            cam_offset = wp.vec3(-0.8, 0.0, 0.5)
+            qx, qy, qz, qw = body_q[self.cfg.body.base][3:]
+            drone_yaw = math.atan2(2.0 * (qw * qz + qx * qy), 1.0 - 2.0 * (qy * qy + qz * qz))
+
+            # Orbit camera behind the drone
+            dist_back = 0.8
+            dist_up = 0.5
+            cam_x = drone_pos[0] - dist_back * math.cos(drone_yaw)
+            cam_y = drone_pos[1] - dist_back * math.sin(drone_yaw)
+            cam_z = drone_pos[2] + dist_up
             self.viewer.set_camera(
-                pos=wp.vec3(
-                    drone_pos[0] + cam_offset[0],
-                    drone_pos[1] + cam_offset[1],
-                    drone_pos[2] + cam_offset[2],
-                ),
+                pos=wp.vec3(cam_x, cam_y, cam_z),
                 pitch=-20.0,
-                yaw=0.0,
+                yaw=math.degrees(drone_yaw),
             )
 
             self.viewer.begin_frame(self.sim_time)
