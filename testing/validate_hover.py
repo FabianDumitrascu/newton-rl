@@ -63,6 +63,79 @@ class HoverValidator:
 
         self.rc = RCInput(RCInputConfig(), frame_dt=self.cfg.sim.frame_dt)
 
+    @staticmethod
+    def _add_obstacles(scene: newton.ModelBuilder) -> None:
+        """Add an obstacle course to the scene for RC flying."""
+        obstacle_cfg = newton.ModelBuilder.ShapeConfig(
+            density=0.0, collision_group=0
+        )
+
+        def _pillar(x: float, y: float, height: float, radius: float = 0.15) -> None:
+            b = scene.add_body(
+                xform=wp.transform(p=wp.vec3(x, y, height / 2), q=wp.quat_identity()),
+                is_kinematic=True,
+                label=f"pillar_{x:.0f}_{y:.0f}",
+            )
+            scene.add_shape_cylinder(
+                body=b, radius=radius, half_height=height / 2, cfg=obstacle_cfg
+            )
+
+        def _box(x: float, y: float, z: float, hx: float, hy: float, hz: float) -> None:
+            b = scene.add_body(
+                xform=wp.transform(p=wp.vec3(x, y, z), q=wp.quat_identity()),
+                is_kinematic=True,
+                label=f"box_{x:.0f}_{y:.0f}_{z:.0f}",
+            )
+            scene.add_shape_box(body=b, hx=hx, hy=hy, hz=hz, cfg=obstacle_cfg)
+
+        # Gate 1: fly-through archway at x=3
+        _pillar(3.0, -1.0, 4.0)
+        _pillar(3.0, 1.0, 4.0)
+        _box(3.0, 0.0, 3.5, 0.15, 1.15, 0.15)  # lintel
+
+        # Gate 2: offset archway at x=6
+        _pillar(6.0, 0.5, 3.5)
+        _pillar(6.0, 2.5, 3.5)
+        _box(6.0, 1.5, 3.0, 0.15, 1.15, 0.15)
+
+        # Slalom pillars
+        _pillar(1.5, 1.5, 3.0, 0.2)
+        _pillar(4.5, -1.5, 3.0, 0.2)
+        _pillar(7.5, 1.0, 3.5, 0.2)
+
+        # Stacked crates cluster
+        _box(9.0, 0.0, 0.4, 0.4, 0.4, 0.4)
+        _box(9.0, 0.0, 1.2, 0.35, 0.35, 0.35)
+        _box(9.0, 0.8, 0.3, 0.3, 0.3, 0.3)
+
+        # Floating ring approximation (4 capsules in a square) at x=5, z=2.5
+        ring_x, ring_y, ring_z = 5.0, -1.0, 2.5
+        ring_r = 0.08
+        ring_span = 0.8
+        for dx, dy, rot in [
+            (0, ring_span, (0.0, 0.0, 0.0, 1.0)),       # top bar (along Y)
+            (0, -ring_span, (0.0, 0.0, 0.0, 1.0)),      # bottom bar
+            (ring_span, 0, (0.0, 0.0, 0.7071, 0.7071)),  # right bar (along X, rotated 90 around Z)
+            (-ring_span, 0, (0.0, 0.0, 0.7071, 0.7071)), # left bar
+        ]:
+            b = scene.add_body(
+                xform=wp.transform(
+                    p=wp.vec3(ring_x, ring_y + dy, ring_z + dx),
+                    q=wp.quat(*rot),
+                ),
+                is_kinematic=True,
+            )
+            scene.add_shape_capsule(
+                body=b, radius=ring_r, half_height=ring_span - ring_r, cfg=obstacle_cfg
+            )
+
+        # Low wall to hop over
+        _box(2.0, -3.0, 0.5, 0.15, 1.5, 0.5)
+
+        # Tall narrow gap
+        _pillar(8.0, -2.0, 5.0, 0.12)
+        _pillar(8.0, -1.2, 5.0, 0.12)
+
     def _build_model(self) -> None:
         """Build Newton model programmatically via build_osprey()."""
         from controllers.osprey_model import build_osprey
@@ -70,8 +143,10 @@ class HoverValidator:
         osprey = build_osprey(self.cfg, spawn_pos=(0.0, 0.0, self.cfg.sim.spawn_height))
 
         scene = newton.ModelBuilder()
+        newton.solvers.SolverMuJoCo.register_custom_attributes(scene)
         scene.add_ground_plane()
         scene.add_world(osprey)
+        self._add_obstacles(scene)
 
         self.model = scene.finalize()
         self.state_0 = self.model.state()
@@ -356,23 +431,27 @@ class HoverValidator:
             elif not self.viewer.is_paused():
                 self.step()
 
-            # Camera follows drone position and yaw
+            # Camera follows drone position and yaw (skip on NaN)
             body_q = self.state_0.body_q.numpy()
             drone_pos = body_q[self.cfg.body.base][:3]
-            qx, qy, qz, qw = body_q[self.cfg.body.base][3:]
-            drone_yaw = math.atan2(2.0 * (qw * qz + qx * qy), 1.0 - 2.0 * (qy * qy + qz * qz))
+            if not math.isnan(drone_pos[0]):
+                qx, qy, qz, qw = body_q[self.cfg.body.base][3:]
+                drone_yaw = math.atan2(
+                    2.0 * (qw * qz + qx * qy),
+                    1.0 - 2.0 * (qy * qy + qz * qz),
+                )
 
-            # Orbit camera behind the drone
-            dist_back = 0.8
-            dist_up = 0.5
-            cam_x = drone_pos[0] - dist_back * math.cos(drone_yaw)
-            cam_y = drone_pos[1] - dist_back * math.sin(drone_yaw)
-            cam_z = drone_pos[2] + dist_up
-            self.viewer.set_camera(
-                pos=wp.vec3(cam_x, cam_y, cam_z),
-                pitch=-20.0,
-                yaw=math.degrees(drone_yaw),
-            )
+                # Orbit camera behind the drone
+                dist_back = 0.8
+                dist_up = 0.5
+                cam_x = drone_pos[0] - dist_back * math.cos(drone_yaw)
+                cam_y = drone_pos[1] - dist_back * math.sin(drone_yaw)
+                cam_z = drone_pos[2] + dist_up
+                self.viewer.set_camera(
+                    pos=wp.vec3(cam_x, cam_y, cam_z),
+                    pitch=-20.0,
+                    yaw=math.degrees(drone_yaw),
+                )
 
             self.viewer.begin_frame(self.sim_time)
             self.viewer.log_state(self.state_0)
