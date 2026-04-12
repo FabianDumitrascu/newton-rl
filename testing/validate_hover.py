@@ -10,7 +10,11 @@ Use this to verify that:
 
 from __future__ import annotations
 
+from pathlib import Path
+
+import numpy as np
 import torch
+import trimesh
 import warp as wp
 
 import newton
@@ -120,55 +124,45 @@ class HoverValidator:
             builder.joint_target_ke[dof] = 0.0
             builder.joint_target_kd[dof] = 0.0
 
-        # Add placeholder shapes — USD meshes are custom prim types that
-        # Newton can't parse, so drone bodies have no geometry.
-        # Base body gets a collider so it doesn't fall through the ground.
-        visual_only = newton.ModelBuilder.ShapeConfig(density=0.0, collision_group=0)
-        # Base body: flat box with collision enabled
-        builder.add_shape_box(
-            bi.base,
-            hx=0.12,
-            hy=0.12,
-            hz=0.015,
-            cfg=newton.ModelBuilder.ShapeConfig(density=0.0),
-            color=(0.3, 0.3, 0.3),
-        )
-        # Rotor bodies: small discs (visual only)
-        for ridx in bi.rotor_indices_ref_order:
-            builder.add_shape_cylinder(
-                ridx,
-                radius=0.05,
-                half_height=0.005,
-                cfg=visual_only,
-                color=(0.8, 0.2, 0.2),
-            )
-        # Arm: elongated box (visual only)
-        builder.add_shape_box(
-            bi.arm,
-            hx=0.06,
-            hy=0.015,
-            hz=0.015,
-            cfg=visual_only,
-            color=(0.2, 0.2, 0.8),
-        )
-        # Differential: small box (visual only)
-        builder.add_shape_box(
-            bi.differential,
-            hx=0.02,
-            hy=0.02,
-            hz=0.02,
-            cfg=visual_only,
-            color=(0.2, 0.6, 0.2),
-        )
-        # Fingers: thin boxes (visual only)
-        for fidx in (bi.finger_left, bi.finger_right):
-            builder.add_shape_box(
-                fidx,
-                hx=0.005,
-                hy=0.015,
-                hz=0.01,
-                cfg=visual_only,
-                color=(0.9, 0.9, 0.2),
+        # Load actual mesh geometry from OBJ files (converted from STEP).
+        # STEP files are in mm, so we scale vertices by 0.001 to meters.
+        mesh_dir = Path("assets/meshes")
+        visual_cfg = newton.ModelBuilder.ShapeConfig(density=0.0, collision_group=0)
+
+        body_mesh_map = {
+            bi.base: "link_body",
+            bi.differential: "link_differential",
+            bi.arm: "link_arm",
+            bi.finger_left: "link_finger_left",
+            bi.finger_right: "link_finger_right",
+            bi.rotor_front_right: "link_rotor_front_right",
+            bi.rotor_front_left: "link_rotor_front_left",
+            bi.rotor_back_left: "link_rotor_back_left",
+            bi.rotor_back_right: "link_rotor_back_right",
+        }
+
+        for body_idx, mesh_name in body_mesh_map.items():
+            obj_path = mesh_dir / f"{mesh_name}.obj"
+            if not obj_path.exists():
+                print(f"  Warning: {obj_path} not found, skipping")
+                continue
+            tm = trimesh.load(str(obj_path))
+            # Scale mm → meters
+            vertices = (tm.vertices * 0.001).astype(np.float32)
+            indices = tm.faces.flatten().astype(np.int32)
+            mesh = newton.Mesh(vertices=vertices, indices=indices)
+            builder.add_shape_mesh(body=body_idx, mesh=mesh, cfg=visual_cfg)
+
+        # Collision shape on base body (convex hull for ground interaction)
+        base_obj = mesh_dir / "link_body.obj"
+        if base_obj.exists():
+            tm_base = trimesh.load(str(base_obj))
+            base_verts = (tm_base.vertices * 0.001).astype(np.float32)
+            base_indices = tm_base.faces.flatten().astype(np.int32)
+            base_mesh = newton.Mesh(vertices=base_verts, indices=base_indices)
+            collision_cfg = newton.ModelBuilder.ShapeConfig(density=0.0, mu=0.8)
+            builder.add_shape_convex_hull(
+                body=bi.base, mesh=base_mesh, cfg=collision_cfg
             )
 
         self.model = builder.finalize()
